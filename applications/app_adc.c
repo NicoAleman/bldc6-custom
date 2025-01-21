@@ -74,7 +74,7 @@ void app_adc_configure(adc_config *conf) {
 	if (!buttons_detached && (((conf->buttons >> 0) & 1) || CTRL_USES_BUTTON(conf->ctrl_type))) {
 		if (use_rx_tx_as_buttons) {
 			palSetPadMode(HW_UART_TX_PORT, HW_UART_TX_PIN, PAL_MODE_INPUT_PULLUP);
-			palSetPadMode(HW_UART_RX_PORT, HW_UART_RX_PIN, PAL_MODE_INPUT_PULLUP);
+			// palSetPadMode(HW_UART_RX_PORT, HW_UART_RX_PIN, PAL_MODE_INPUT_PULLUP);
 		} else {
 			palSetPadMode(HW_ICU_GPIO, HW_ICU_PIN, PAL_MODE_INPUT_PULLUP);
 		}
@@ -293,10 +293,10 @@ static THD_FUNCTION(adc_thread, arg) {
 			if ((config.buttons >> 1) & 1) {
 				cc_button = !cc_button;
 			}
-			rev_button = !palReadPad(HW_UART_RX_PORT, HW_UART_RX_PIN);
-			if ((config.buttons >> 2) & 1) {
-				rev_button = !rev_button;
-			}
+			// rev_button = !palReadPad(HW_UART_RX_PORT, HW_UART_RX_PIN);
+			// if ((config.buttons >> 2) & 1) {
+			// 	rev_button = !rev_button;
+			// }
 		} else {
 			// When only one button input is available, use it differently depending on the control mode
 			if (config.ctrl_type == ADC_CTRL_TYPE_CURRENT_REV_BUTTON ||

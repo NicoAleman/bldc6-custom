@@ -112,7 +112,7 @@ void app_uartcomm_initialize(void) {
 	serialPortDriverTx[0] = &HW_UART_DEV;
 	serialPortDriverRx[0] = &HW_UART_DEV;
 	uart_cfg[0].speed =  BAUDRATE;
-	RxGpioPort[0] = HW_UART_RX_PORT; RxGpioPin[0] = HW_UART_RX_PIN;
+	// RxGpioPort[0] = HW_UART_RX_PORT; RxGpioPin[0] = HW_UART_RX_PIN;
 	TxGpioPort[0] = HW_UART_TX_PORT; TxGpioPin[0] = HW_UART_TX_PIN;
 	gpioAF[0] = HW_UART_GPIO_AF;
 
