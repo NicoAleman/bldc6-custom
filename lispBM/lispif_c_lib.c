@@ -219,6 +219,13 @@ static bool get_gpio(VESC_PIN io, stm32_gpio_t **port, uint32_t *pin, bool *is_a
 		res = true;
 #endif
 		break;
+	case VESC_PIN_ADC3:
+#ifdef HW_ADC_EXT3_GPIO
+		*port = HW_ADC_EXT3_GPIO; *pin = HW_ADC_EXT3_PIN;
+		*is_analog = true;
+		res = true;
+#endif
+		break;
 	case VESC_PIN_HALL4:
 #ifdef HW_HALL_ENC_GPIO4
 		*port = HW_HALL_ENC_GPIO4; *pin = HW_HALL_ENC_PIN4;
@@ -342,6 +349,8 @@ static float lib_io_read_analog(VESC_PIN pin_vesc) {
 		res = ADC_VOLTS(ADC_IND_EXT);
 	} else if (pin_vesc == VESC_PIN_ADC2) {
 		res = ADC_VOLTS(ADC_IND_EXT2);
+	} else if (pin_vesc == VESC_PIN_ADC3) {
+		res = ADC_VOLTS(ADC_IND_EXT3);
 	}
 
 	return res;

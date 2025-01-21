@@ -72,6 +72,7 @@
  * 12:  Vrefint
  * 13:  IN0     SENS1
  * 14:  IN1     SENS2
+ * 15:  IN11    ADC_EXT3 (UART_RX pin)
  */
 
 #define HW_ADC_CHANNELS         15
@@ -88,6 +89,7 @@
 #define ADC_IND_VIN_SENS        11
 #define ADC_IND_EXT             6
 #define ADC_IND_EXT2            7
+#define ADC_IND_EXT3            15  // New ADC3 index using UART_RX pin
 #define ADC_IND_TEMP_MOS        8
 #define ADC_IND_TEMP_MOTOR      9
 #define ADC_IND_VREFINT         12
@@ -148,8 +150,12 @@
 #define HW_UART_GPIO_AF         GPIO_AF_USART3
 #define HW_UART_TX_PORT         GPIOB
 #define HW_UART_TX_PIN          10
-#define HW_UART_RX_PORT         GPIOB
-#define HW_UART_RX_PIN          11
+// #define HW_UART_RX_PORT         GPIOB
+// #define HW_UART_RX_PIN          11
+
+// Add ADC3 GPIO definitions
+#define HW_ADC_EXT3_GPIO        GPIOB
+#define HW_ADC_EXT3_PIN         11
 
 // Permanent UART Peripheral (for NRF51)
 #define HW_UART_P_BAUD          115200
