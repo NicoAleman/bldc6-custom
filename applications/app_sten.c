@@ -126,7 +126,7 @@ void app_sten_stop(void) {
 	if (is_running) {
 		uartStop(&HW_UART_DEV);
 		palSetPadMode(HW_UART_TX_PORT, HW_UART_TX_PIN, PAL_MODE_INPUT_PULLUP);
-		// palSetPadMode(HW_UART_RX_PORT, HW_UART_RX_PIN, PAL_MODE_INPUT_PULLUP);
+		palSetPadMode(HW_UART_RX_PORT, HW_UART_RX_PIN, PAL_MODE_INPUT_PULLUP);
 	}
 
 	while (is_running) {

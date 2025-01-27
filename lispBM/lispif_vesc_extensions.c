@@ -2821,7 +2821,7 @@ static lbm_value ext_uart_start(lbm_value *args, lbm_uint argn) {
 
 	palSetPadMode(HW_UART_TX_PORT, HW_UART_TX_PIN, PAL_MODE_ALTERNATE(HW_UART_GPIO_AF));
 	if (!half_duplex) {
-		// palSetPadMode(HW_UART_RX_PORT, HW_UART_RX_PIN, PAL_MODE_ALTERNATE(HW_UART_GPIO_AF));
+		palSetPadMode(HW_UART_RX_PORT, HW_UART_RX_PIN, PAL_MODE_ALTERNATE(HW_UART_GPIO_AF));
 	}
 
 	uart_started = true;
@@ -2993,7 +2993,7 @@ static lbm_value ext_uart_read(lbm_value *args, lbm_uint argn) {
 }
 
 static i2c_bb_state i2c_cfg = {
-		HW_UART_TX_PORT, HW_UART_TX_PIN,
+		HW_UART_RX_PORT, HW_UART_RX_PIN,
 		HW_UART_TX_PORT, HW_UART_TX_PIN,
 		I2C_BB_RATE_400K,
 		0,
@@ -3026,8 +3026,8 @@ static lbm_value ext_i2c_start(lbm_value *args, lbm_uint argn) {
 		}
 	}
 
-	stm32_gpio_t *sda_gpio = HW_UART_TX_PORT;
-	uint32_t sda_pin = HW_UART_TX_PIN;
+	stm32_gpio_t *sda_gpio = HW_UART_RX_PORT;
+	uint32_t sda_pin = HW_UART_RX_PIN;
 	if (argn >= 2) {
 		if (!lbm_is_symbol(args[1]) ||
 				!lispif_symbol_to_io(lbm_dec_sym(args[1]), &sda_gpio, &sda_pin)) {
@@ -3051,8 +3051,8 @@ static lbm_value ext_i2c_start(lbm_value *args, lbm_uint argn) {
 	bool is_using_uart_pins =
 			(sda_gpio == HW_UART_TX_PORT && sda_pin == HW_UART_TX_PIN) ||
 			(scl_gpio == HW_UART_TX_PORT && scl_pin == HW_UART_TX_PIN) ||
-			(sda_gpio == HW_UART_TX_PORT && sda_pin == HW_UART_TX_PIN) ||
-			(scl_gpio == HW_UART_TX_PORT && scl_pin == HW_UART_TX_PIN);
+			(sda_gpio == HW_UART_RX_PORT && sda_pin == HW_UART_RX_PIN) ||
+			(scl_gpio == HW_UART_RX_PORT && scl_pin == HW_UART_RX_PIN);
 
 	if (is_using_uart_pins) {
 		app_configuration *appconf = mempools_alloc_appconf();
@@ -5697,7 +5697,7 @@ void lispif_disable_all_events(void) {
 bool lispif_symbol_to_io(lbm_uint sym, stm32_gpio_t **port, uint32_t *pin) {
 	if (compare_symbol(sym, &syms_vesc.pin_rx)) {
 #ifdef HW_UART_RX_PORT
-		*port = HW_UART_TX_PORT; *pin = HW_UART_TX_PIN;
+		*port = HW_UART_RX_PORT; *pin = HW_UART_RX_PIN;
 		return true;
 #endif
 	} else if (compare_symbol(sym, &syms_vesc.pin_tx)) {
