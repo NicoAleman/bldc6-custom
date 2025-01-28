@@ -72,7 +72,6 @@
  * 12:  Vrefint
  * 13:  IN0     SENS1
  * 14:  IN1     SENS2
- * 15:  IN11    ADC_EXT3 (UART_RX pin)
  */
 
 #define HW_ADC_CHANNELS         15
@@ -150,8 +149,8 @@
 #define HW_UART_GPIO_AF         GPIO_AF_USART3
 #define HW_UART_TX_PORT         GPIOB
 #define HW_UART_TX_PIN          10
-// #define HW_UART_RX_PORT         GPIOB
-// #define HW_UART_RX_PIN          11
+#define HW_UART_RX_PORT         GPIOB
+#define HW_UART_RX_PIN          11
 
 // Add ADC3 GPIO definitions
 #define HW_ADC_EXT3_GPIO        GPIOB
