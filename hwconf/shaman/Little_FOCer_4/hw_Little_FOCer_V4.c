@@ -126,6 +126,9 @@ void hw_init_gpio(void) {
     palSetPadMode(HW_SHUTDOWN_GPIO, HW_SHUTDOWN_PIN, PAL_MODE_OUTPUT_PUSHPULL);
     palSetPadMode(HW_SHUTDOWN_SENSE_GPIO, HW_SHUTDOWN_SENSE_PIN, PAL_MODE_INPUT_PULLDOWN);
 
+    // HW1 Pin
+    palSetPadMode(PIN_HW_1_GPIO, PIN_HW_1, PAL_MODE_INPUT_PULLDOWN);
+
 #ifdef HW_HAS_DRV8323S
     drv8323s_init();
 #endif

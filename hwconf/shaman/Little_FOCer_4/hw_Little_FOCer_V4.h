@@ -235,6 +235,10 @@
 #define NRF5x_SWCLK_GPIO        GPIOB
 #define NRF5x_SWCLK_PIN         3
 
+// HW1 pin (PB12)
+#define PIN_HW_1_GPIO           GPIOB
+#define PIN_HW_1                12
+
 // Measurement macros
 #define ADC_V_L1                ADC_Value[ADC_IND_SENS1]
 #define ADC_V_L2                ADC_Value[ADC_IND_SENS2]
