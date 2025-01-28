@@ -970,6 +970,7 @@ lbm_value ext_load_native_lib(lbm_value *args, lbm_uint argn) {
 		cif.cif.get_remote_state = lib_get_remote_state;
 		cif.cif.get_ppm = lispif_get_ppm;
 		cif.cif.get_ppm_age = lib_get_ppm_age;
+		cif.cif.process_adc = lispif_process_adc;
 		cif.cif.app_is_output_disabled = app_is_output_disabled;
 
 		// NVM
@@ -1126,6 +1127,56 @@ float lispif_get_ppm(void) {
 	}
 
 	return servo_val;
+}
+
+float lispif_process_adc(bool is_adc2) {
+	const app_configuration *appconf = app_get_configuration();
+	const adc_config *cfg = &appconf->app_adc_conf;
+
+	// const int FILTER_SAMPLES = 5;
+	
+	// Read ADC value
+	#ifdef ADC_IND_EXT2
+		float val = ADC_VOLTS(is_adc2 ? ADC_IND_EXT2 : ADC_IND_EXT);
+	#else
+		float val = is_adc2 ? 0.0 : ADC_VOLTS(ADC_IND_EXT);
+	#endif
+	
+	// // Apply filter if configured
+	// static float filter_val1 = 0.0;
+	// static float filter_val2 = 0.0;
+	// float *filter_val = is_adc2 ? &filter_val2 : &filter_val1;
+	// UTILS_LP_MOVING_AVG_APPROX(*filter_val, val, FILTER_SAMPLES);
+	
+	// if (cfg->use_filter) {
+	// 	val = *filter_val;
+	// }
+	
+	// Map voltage
+	val = utils_map(val, 
+				   is_adc2 ? cfg->voltage2_start : cfg->voltage_start,
+				   is_adc2 ? cfg->voltage2_end : cfg->voltage_end,
+				   0.0, 1.0);
+	
+	// Truncate
+	utils_truncate_number(&val, 0.0, 1.0);
+	
+	// Apply inversion if configured
+	if ((!is_adc2 && cfg->voltage_inverted) || (is_adc2 && cfg->voltage2_inverted)) {
+		val = 1.0 - val;
+	}
+
+	// Apply deadband
+	utils_deadband(&val, cfg->hyst, 1.0);
+
+	// Apply throttle curve - use brake curve for ADC2
+	if (is_adc2) {
+		val = utils_throttle_curve(val, cfg->throttle_exp_brake, cfg->throttle_exp_brake, cfg->throttle_exp_mode);
+	} else {
+		val = utils_throttle_curve(val, cfg->throttle_exp, cfg->throttle_exp_brake, cfg->throttle_exp_mode);
+	}
+	
+	return val;
 }
 
 #pragma GCC pop_options

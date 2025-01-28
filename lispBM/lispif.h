@@ -40,6 +40,7 @@ void lispif_disable_all_events(void);
 bool lispif_symbol_to_io(lbm_uint sym, stm32_gpio_t **port, uint32_t *pin);
 void lispif_stop_lib(void);
 float lispif_get_ppm(void);
+float lispif_process_adc(bool is_adc2);
 void lispif_process_cmd(unsigned char *data, unsigned int len,
 		void(*reply_func)(unsigned char *data, unsigned int len));
 void lispif_process_can(uint32_t can_id, uint8_t *data8, int len, bool is_ext);
