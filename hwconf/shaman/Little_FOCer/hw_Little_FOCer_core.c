@@ -28,8 +28,6 @@
 #include "commands.h"
 #include "mc_interface.h"
 
-bool adc_inverted_flag = false;
-
 // Variables
 static volatile bool i2c_running = false;
 

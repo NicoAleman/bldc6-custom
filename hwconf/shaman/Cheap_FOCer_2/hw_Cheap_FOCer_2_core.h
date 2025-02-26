@@ -129,16 +129,10 @@
 #define NTC_RES_MOTOR(adc_val)	(10000.0 / ((4095.0 / (float)adc_val) - 1.0)) // Motor temp sensor on low side
 #define NTC_TEMP_MOTOR(beta)	(1.0 / ((logf(NTC_RES_MOTOR(ADC_Value[ADC_IND_TEMP_MOTOR]) / 10000.0) / beta) + (1.0 / 298.15)) - 273.15)
 
-// Declare the flag and threshold
-extern bool adc_inverted_flag;
-#define ADC_INVERT_THRESHOLD    0.5f
-
-// Voltage on ADC channel with inversion detection
-#define ADC_VOLTS(ch)          (adc_inverted_flag ? \
-                               (V_REG - ((float)ADC_Value[ch] / 4096.0 * V_REG)) : \
-                               ((float)ADC_Value[ch] / 4096.0 * V_REG)); \
-                               if (!adc_inverted_flag && ((float)ADC_Value[ch] / 4096.0 * V_REG > ADC_INVERT_THRESHOLD)) \
-                                   adc_inverted_flag = true
+// Voltage on ADC channel
+#define ADC_VOLTS(ch)         (((ch) == ADC_IND_EXT || (ch) == ADC_IND_EXT2) ? \
+                              (V_REG - ((float)ADC_Value[ch] / 4096.0 * V_REG)) : \
+                              ((float)ADC_Value[ch] / 4096.0 * V_REG))
 
 // Double samples in beginning and end for positive current measurement.
 // Useful when the shunt sense traces have noise that causes offset.
