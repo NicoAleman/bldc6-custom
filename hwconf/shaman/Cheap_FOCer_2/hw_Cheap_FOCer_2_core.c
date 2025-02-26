@@ -23,7 +23,7 @@
 #include "utils_math.h"
 #include "drv8301.h"
 
-
+bool adc_inverted_flag = false;
 
 // Variables
 static volatile bool i2c_running = false;
