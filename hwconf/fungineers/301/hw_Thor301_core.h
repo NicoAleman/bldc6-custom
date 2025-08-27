@@ -202,9 +202,9 @@
 #define HW_UART_P_RX_PORT	    GPIOB
 #define HW_UART_P_RX_PIN		11
 
-// HW1 pin (PA7)
-#define PIN_HW_1_GPIO           GPIOA
-#define PIN_HW_1                7
+// HW1 pin (PC9)
+#define PIN_HW_1_GPIO           GPIOC
+#define PIN_HW_1                9
 
 // Measurement macros
 #define ADC_V_L1				ADC_Value[ADC_IND_SENS1]
