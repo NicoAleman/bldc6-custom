@@ -130,6 +130,9 @@ void hw_init_gpio(void) {
 	//    //Add early latch on code here
 	HW_SHUTDOWN_HOLD_ON();
 
+	// HW1 Pin
+	palSetPadMode(PIN_HW_1_GPIO, PIN_HW_1, PAL_MODE_INPUT_PULLDOWN);
+	
 	// ADC Pins
 	palSetPadMode(GPIOA, 0, PAL_MODE_INPUT_ANALOG);
 	palSetPadMode(GPIOA, 1, PAL_MODE_INPUT_ANALOG);
