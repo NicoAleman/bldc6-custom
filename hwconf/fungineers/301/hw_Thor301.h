@@ -20,7 +20,7 @@
 #ifndef HW_Thor301_H_
 #define HW_Thor301_H_
 
-#define HW_NAME					"Thor301"
+#define HW_NAME					"Thor301 (WFB)"
 
 #include "hw_Thor301_core.h"
 
