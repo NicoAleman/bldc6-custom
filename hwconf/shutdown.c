@@ -134,6 +134,13 @@ static THD_FUNCTION(shutdown_thread, arg) {
 		// will prevent the regulator from shutting down. Therefore, the
 		// gate driver has to be disabled.
 
+#ifdef HW_SHUTDOWN_KEY_SWITCH
+		if (!sample) {
+			gates_disabled_here = do_shutdown(false);
+		} else {
+			HW_SHUTDOWN_HOLD_ON();
+		}
+#else
 		switch (conf->shutdown_mode) {
 		case SHUTDOWN_MODE_ALWAYS_OFF:
 #ifdef HW_SHUTDOWN_NO
@@ -159,6 +166,7 @@ static THD_FUNCTION(shutdown_thread, arg) {
 			}
 			break;
 		}
+#endif
 
 		switch (conf->shutdown_mode) {
 		case SHUTDOWN_MODE_ALWAYS_OFF:

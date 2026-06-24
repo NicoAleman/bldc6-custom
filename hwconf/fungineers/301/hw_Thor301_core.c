@@ -299,22 +299,23 @@ void hw_try_restore_i2c(void) {
 /**
  * hw_sample_shutdown_button - return false if shutdown is requested, true otherwise
  *
- * The button is level triggered, but shutdown is delayed:
- * 
- * After 200ms the board shuts off with a short 30ms beep if the motor isn't moving aka
- * the ERPM is below 100
+ * With HW_SHUTDOWN_KEY_SWITCH:
+ * Key ON (terminals shorted) reads high -> stay on.
+ * Key OFF (open) reads low -> shutdown immediately (level-triggered, no press/release sequence).
  *
- * If the motor is spinning faster, then a 3s press is required. After 1s of pressing
- * the buzzer will beep continuously till it shuts down.
- *
- * Normal shutdown time:    0.2s
- * Emergency shutdown time: 3.0s
+ * Without HW_SHUTDOWN_KEY_SWITCH (momentary button):
+ * After 200ms the board shuts off with a short 30ms beep if the motor isn't moving.
+ * Shutdown happens on button release. If the motor is spinning faster, a 3s press is required.
  */
 
 bool hw_sample_shutdown_button(void) {
     chMtxLock(&shutdown_mutex);
     float newval = ADC_VOLTS(ADC_IND_SHUTDOWN);
     chMtxUnlock(&shutdown_mutex);
+
+#ifdef HW_SHUTDOWN_KEY_SWITCH
+    return newval > 1.0f;
+#else
     if (newval > 1.0f) {
         bt_hold_counter++;
 
@@ -354,6 +355,7 @@ bool hw_sample_shutdown_button(void) {
         }
     }
     return true;
+#endif
 }
 
 

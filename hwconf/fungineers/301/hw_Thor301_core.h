@@ -49,6 +49,8 @@
 #define HW_SHUTDOWN_HOLD_ON()		palSetPad(HW_SHUTDOWN_GPIO, HW_SHUTDOWN_PIN)
 #define HW_SHUTDOWN_HOLD_OFF()		palClearPad(HW_SHUTDOWN_GPIO, HW_SHUTDOWN_PIN)
 #define HW_SAMPLE_SHUTDOWN()		hw_sample_shutdown_button()
+// Key switch (not momentary button): ON = sense line shorted/high, OFF = open/low
+#define HW_SHUTDOWN_KEY_SWITCH
 
 // ADC Config
 #define HW_ADC_CHANNELS			18
